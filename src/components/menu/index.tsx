@@ -48,7 +48,7 @@ export const Menu = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     dispatch(setRecursion(recursionForm))
-    dispatch(setGap(`${gapNum}${gapChar}`))
+    dispatch(setGap(gapNum + gapChar))
     dispatch(setAnimateGrid(gridChecked))
     dispatch(setAnimateColor(colorChecked))
     dispatch(setTrigger(triggerForm))

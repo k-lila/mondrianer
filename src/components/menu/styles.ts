@@ -20,13 +20,13 @@ export const MenuStyled = styled.div`
   }
   .__menu-btn {
     margin: 0 auto;
-    padding: 1vmin 2vmin;
+    height: 2.5em;
+    width: 42%;
     background-color: rgba(255, 255, 255, 0.7);
     border: none;
     font-size: 1em;
     cursor: pointer;
     transition: all 0.3s ease-in;
-    width: 42%;
     &:hover {
       background-color: rgba(255, 255, 255, 0.9);
     }
@@ -91,7 +91,7 @@ export const InputGap = styled.div<{ $char: string }>`
     display: flex;
     justify-content: space-between;
     input {
-      width: 3em;
+      width: 4em;
       text-align: end;
       padding: 0.25em;
     }
@@ -100,7 +100,6 @@ export const InputGap = styled.div<{ $char: string }>`
       width: 2em;
       padding: 0.25em;
       margin-left: 1em;
-      border: none;
       cursor: pointer;
       transition: all 0.3s ease;
     }
@@ -110,16 +109,33 @@ export const InputGap = styled.div<{ $char: string }>`
     width: 100%;
   }
   .--proportion {
+    color: ${(props) =>
+      props.$char == '%' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.6)'};
+    border: 1px solid
+      ${(props) =>
+        props.$char == '%' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.2)'};
     background-color: ${(props) =>
       props.$char == '%'
         ? 'rgba(255, 255, 255, 0.9)'
         : 'rgba(255, 255, 255, 0.2)'};
   }
   .--constant {
+    color: ${(props) =>
+      props.$char == 'px' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.6)'};
+    border: 1px solid
+      ${(props) =>
+        props.$char == 'px' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.2)'};
     background-color: ${(props) =>
       props.$char == 'px'
         ? 'rgba(255, 255, 255, 0.9)'
         : 'rgba(255, 255, 255, 0.2)'};
+  }
+  @media screen and (max-width: 1024px) {
+    .__gap {
+      input {
+        width: 3em;
+      }
+    }
   }
 `
 
