@@ -7,7 +7,7 @@ export const MenuStyled = styled.div`
   top: 3vmin;
   right: 3vmin;
   z-index: 1;
-  background-color: rgba(200, 200, 200, 0.9);
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 2vmin;
   form {
     display: flex;
@@ -15,6 +15,8 @@ export const MenuStyled = styled.div`
   }
 
   .__close-menu {
+    color: white;
+    margin: 1vmin 0;
     display: flex;
     align-items: center;
     justify-content: end;
@@ -22,21 +24,10 @@ export const MenuStyled = styled.div`
     border: none;
     background-color: transparent;
     cursor: pointer;
-    span {
-      font-size: 1.25em;
-    }
-  }
-
-  .__menu-item {
-    display: flex;
-    background-color: rgba(0, 0, 0, 0.3);
-    justify-content: space-between;
-    margin: 10px 0;
-    padding: 1vmin;
-    input {
-      width: 3em;
-      text-align: center;
-      margin-left: 1em;
+    height: 2em;
+    img {
+      height: 100%;
+      width: 100%;
     }
   }
   .__container-btn {
@@ -47,14 +38,89 @@ export const MenuStyled = styled.div`
   .__menu-btn {
     margin: 0 auto;
     padding: 1vmin 2vmin;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.7);
     border: none;
     cursor: pointer;
-    transition: all 0.5s ease-in;
+    transition: all 0.3s ease-in;
     &:hover {
       background-color: rgba(255, 255, 255, 0.9);
     }
   }
+`
+
+export const InputRange = styled.div<{ $num: number }>`
+  padding: 2vmin;
+  background-color: ${(props) =>
+    props.$num <= 10
+      ? 'rgba(255, 255, 255, 0.7)'
+      : props.$num > 10 && props.$num <= 15
+      ? 'rgba(234, 239, 44, 0.7)'
+      : 'rgba(255, 0, 0, 0.55)'};
+  margin-bottom: 1em;
+  div {
+    display: flex;
+    justify-content: space-between;
+    input {
+      text-align: end;
+      width: 3.5em;
+      margin-left: 1em;
+      padding: 0.25em;
+    }
+  }
+  .__range {
+    margin-top: 3%;
+    width: 100%;
+  }
+`
+
+export const InputGap = styled.div<{ $char: string }>`
+  display: flex;
+  flex-direction: column;
+  padding: 2vmin;
+  margin-bottom: 1em;
+  background-color: rgba(255, 255, 255, 0.7);
+  .__gap {
+    display: flex;
+    justify-content: space-between;
+    input {
+      width: 3em;
+      text-align: end;
+      padding: 0.25em;
+    }
+    button {
+      height: 2em;
+      width: 2em;
+      padding: 0.25em;
+      margin-left: 1em;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  }
+  .__range {
+    margin-top: 3%;
+    width: 100%;
+  }
+  .--proportion {
+    background-color: ${(props) =>
+      props.$char == '%'
+        ? 'rgba(255, 255, 255, 0.9)'
+        : 'rgba(255, 255, 255, 0.2)'};
+  }
+  .--constant {
+    background-color: ${(props) =>
+      props.$char == 'px'
+        ? 'rgba(255, 255, 255, 0.9)'
+        : 'rgba(255, 255, 255, 0.2)'};
+  }
+`
+
+export const InputCheck = styled.div`
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: space-between;
+  padding: 2vmin;
+  margin-bottom: 1em;
 `
 
 const fadeOut = keyframes`
@@ -73,9 +139,7 @@ export const OpenMenu = styled.button`
   background-color: transparent;
   border: none;
   animation: ${fadeOut} 1.5s ease-out;
-  span {
-    font-size: 10vmin;
-    color: white;
+  img {
   }
   &:hover {
     opacity: 1;

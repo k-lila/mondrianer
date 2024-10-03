@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { MenuStyled, OpenMenu } from './styles'
+import {
+  InputCheck,
+  InputGap,
+  InputRange,
+  MenuStyled,
+  OpenMenu
+} from './styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 import {
@@ -10,6 +16,8 @@ import {
   setRecursion,
   setTrigger
 } from '../../store/reducers/mondrianerConfig'
+import settings from '../../assets/settings.png'
+import close from '../../assets/close.png'
 
 export const Menu = () => {
   const [open, setOpen] = useState(false)
@@ -27,8 +35,10 @@ export const Menu = () => {
   const refreshStore = useSelector(
     (state: RootReducer) => state.config.refresher
   )
+
   const [recursionForm, setRecursionForm] = useState(recursionStore)
-  const [gapForm, setGapForm] = useState(gapStore)
+  const [gapNum, setGapNum] = useState(gapStore.replace(/\D+/g, ''))
+  const [gapChar, setGapChar] = useState(gapStore.replace(/\d+/g, ''))
   const [gridChecked, setGridChecked] = useState(gridStore)
   const [colorChecked, setColorChecked] = useState(colorsStore)
   const [triggerForm, setTriggerForm] = useState(triggerStore)
@@ -36,7 +46,7 @@ export const Menu = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
     dispatch(setRecursion(recursionForm))
-    dispatch(setGap(gapForm))
+    dispatch(setGap(`${gapNum}${gapChar}`))
     dispatch(setAnimateGrid(gridChecked))
     dispatch(setAnimateColor(colorChecked))
     dispatch(setTrigger(triggerForm))
@@ -44,38 +54,79 @@ export const Menu = () => {
 
   return open ? (
     <MenuStyled>
+      <button className="__close-menu" onClick={() => setOpen(!open)}>
+        <img src={close} alt="close" />
+      </button>
       <form onSubmit={handleSubmit}>
-        <button className="__close-menu" onClick={() => setOpen(!open)}>
-          <span className="material-symbols-outlined">close</span>
-        </button>
-        <div className="__menu-item">
-          <label htmlFor="recursion">passos da recursão</label>
+        <InputRange $num={recursionForm}>
+          <div>
+            <label htmlFor="recursion">passos da recursão</label>
+            <input
+              type="number"
+              id="recursion"
+              value={recursionForm}
+              onChange={(e) => setRecursionForm(Number(e.target.value))}
+            />
+          </div>
           <input
-            type="number"
-            id="recursion"
+            className="__range"
+            type="range"
+            min="0"
+            max="25"
+            step="1"
             value={recursionForm}
             onChange={(e) => setRecursionForm(Number(e.target.value))}
           />
-        </div>
-        <div className="__menu-item">
-          <label htmlFor="trigger">trigger</label>
+        </InputRange>
+        <InputRange $num={triggerForm}>
+          <div>
+            <label htmlFor="trigger">trigger</label>
+            <input
+              type="number"
+              id="trigger"
+              value={triggerForm}
+              onChange={(e) => setTriggerForm(Number(e.target.value))}
+            />
+          </div>
           <input
-            type="number"
-            id="trigger"
+            type="range"
+            className="__range"
+            min="0"
+            max={recursionForm}
+            step="1"
             value={triggerForm}
             onChange={(e) => setTriggerForm(Number(e.target.value))}
           />
-        </div>
-        <div className="__menu-item">
-          <label htmlFor="gap">gap</label>
+        </InputRange>
+        <InputGap $char={gapChar}>
+          <div className="__gap">
+            <label htmlFor="gap">gap</label>
+            <div>
+              <input
+                type="num"
+                id="gap"
+                value={gapNum}
+                onChange={(e) => setGapNum(e.target.value)}
+              />
+              <button className="--proportion" onClick={() => setGapChar('%')}>
+                %
+              </button>
+              <button className="--constant" onClick={() => setGapChar('px')}>
+                px
+              </button>
+            </div>
+          </div>
           <input
-            type="text"
-            id="gap"
-            value={gapForm}
-            onChange={(e) => setGapForm(e.target.value)}
+            type="range"
+            className="__range"
+            min="0"
+            max="25"
+            step="0.1"
+            value={gapNum}
+            onChange={(e) => setGapNum(e.target.value)}
           />
-        </div>
-        <div className="__menu-item">
+        </InputGap>
+        <InputCheck>
           <label htmlFor="grid">animar grid</label>
           <input
             type="checkbox"
@@ -83,8 +134,8 @@ export const Menu = () => {
             checked={gridChecked}
             onChange={() => setGridChecked(!gridChecked)}
           />
-        </div>
-        <div className="__menu-item">
+        </InputCheck>
+        <InputCheck>
           <label htmlFor="colors">animar cores</label>
           <input
             type="checkbox"
@@ -92,7 +143,7 @@ export const Menu = () => {
             checked={colorChecked}
             onChange={() => setColorChecked(!colorChecked)}
           />
-        </div>
+        </InputCheck>
         <div className="__container-btn">
           <button className="__menu-btn" type="submit">
             aplicar
@@ -108,7 +159,7 @@ export const Menu = () => {
     </MenuStyled>
   ) : (
     <OpenMenu onClick={() => setOpen(!open)}>
-      <span className="material-symbols-outlined">settings</span>
+      <img src={settings} alt="settings" />
     </OpenMenu>
   )
 }
