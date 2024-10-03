@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  Header,
   InputCheck,
   InputGap,
   InputRange,
@@ -42,6 +43,7 @@ export const Menu = () => {
   const [gridChecked, setGridChecked] = useState(gridStore)
   const [colorChecked, setColorChecked] = useState(colorsStore)
   const [triggerForm, setTriggerForm] = useState(triggerStore)
+  const [visible, setVisible] = useState(true)
   const dispatch = useDispatch()
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
@@ -54,13 +56,24 @@ export const Menu = () => {
 
   return open ? (
     <MenuStyled>
-      <button className="__close-menu" onClick={() => setOpen(!open)}>
-        <img src={close} alt="close" />
-      </button>
+      <Header>
+        <div>
+          <input
+            id="visible"
+            type="checkbox"
+            checked={visible}
+            onChange={() => setVisible(!visible)}
+          />
+          <label htmlFor="visible">sempre visível</label>
+        </div>
+        <button onClick={() => setOpen(!open)}>
+          <img src={close} alt="close" />
+        </button>
+      </Header>
       <form onSubmit={handleSubmit}>
         <InputRange $num={recursionForm}>
           <div>
-            <label htmlFor="recursion">passos da recursão</label>
+            <label htmlFor="recursion">granularidade</label>
             <input
               type="number"
               id="recursion"
@@ -70,6 +83,7 @@ export const Menu = () => {
           </div>
           <input
             className="__range"
+            id="numrange"
             type="range"
             min="0"
             max="25"
@@ -80,7 +94,7 @@ export const Menu = () => {
         </InputRange>
         <InputRange $num={triggerForm}>
           <div>
-            <label htmlFor="trigger">trigger</label>
+            <label htmlFor="trigger">saturação</label>
             <input
               type="number"
               id="trigger"
@@ -91,6 +105,7 @@ export const Menu = () => {
           <input
             type="range"
             className="__range"
+            id="triggerrange"
             min="0"
             max={recursionForm}
             step="1"
@@ -119,6 +134,7 @@ export const Menu = () => {
           <input
             type="range"
             className="__range"
+            id="gaprange"
             min="0"
             max="25"
             step="0.1"
@@ -158,7 +174,7 @@ export const Menu = () => {
       </form>
     </MenuStyled>
   ) : (
-    <OpenMenu onClick={() => setOpen(!open)}>
+    <OpenMenu $visible={visible} onClick={() => setOpen(!open)}>
       <img src={settings} alt="settings" />
     </OpenMenu>
   )
