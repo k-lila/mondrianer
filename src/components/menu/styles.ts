@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 
 export const MenuStyled = styled.div`
   height: fit-content;
@@ -13,23 +13,6 @@ export const MenuStyled = styled.div`
     display: flex;
     flex-direction: column;
   }
-
-  .__close-menu {
-    color: white;
-    margin: 1vmin 0;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    margin-left: auto;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    height: 2em;
-    img {
-      height: 100%;
-      width: 100%;
-    }
-  }
   .__container-btn {
     display: flex;
     margin-top: 1em;
@@ -40,11 +23,36 @@ export const MenuStyled = styled.div`
     padding: 1vmin 2vmin;
     background-color: rgba(255, 255, 255, 0.7);
     border: none;
+    font-size: 1em;
     cursor: pointer;
     transition: all 0.3s ease-in;
+    width: 42%;
     &:hover {
       background-color: rgba(255, 255, 255, 0.9);
     }
+  }
+`
+export const Header = styled.div`
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+  input {
+    cursor: pointer;
+  }
+  button {
+    height: 2em;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  label {
+    margin-left: 0.5em;
   }
 `
 
@@ -123,31 +131,27 @@ export const InputCheck = styled.div`
   margin-bottom: 1em;
 `
 
-const fadeOut = keyframes`
-  from {opacity: 1;}
-  to {opacity: 0;}
-`
-
-export const OpenMenu = styled.button`
+export const OpenMenu = styled.button<{ $visible: boolean }>`
   position: absolute;
-  top: 2vmin;
-  right: 2vmin;
+  top: 3vmin;
+  right: 3vmin;
   z-index: 1;
-  opacity: 0;
+  opacity: ${(props) => (props.$visible ? '0.4' : '0')};
   transition: all 0.2s ease-in;
   cursor: pointer;
   background-color: transparent;
   border: none;
-  animation: ${fadeOut} 1.5s ease-out;
+  width: 10vmin;
+  height: 10vmin;
   img {
+    width: 100%;
+    height: 100%;
   }
   &:hover {
     opacity: 1;
   }
   @media screen and (max-width: 1024px) {
-    span {
-      font-size: 20vmin;
-      color: white;
-    }
+    width: 16vmin;
+    height: 16vmin;
   }
 `
