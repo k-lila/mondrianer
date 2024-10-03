@@ -136,7 +136,7 @@ export const OpenMenu = styled.button<{ $visible: boolean }>`
   top: 3vmin;
   right: 3vmin;
   z-index: 1;
-  opacity: ${(props) => (props.$visible ? '0.4' : '0')};
+  opacity: ${(props) => (props.$visible ? '0.2' : '0')};
   transition: all 0.2s ease-in;
   cursor: pointer;
   background-color: transparent;

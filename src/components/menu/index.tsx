@@ -118,7 +118,7 @@ export const Menu = () => {
             <label htmlFor="gap">gap</label>
             <div>
               <input
-                type="num"
+                type="number"
                 id="gap"
                 value={gapNum}
                 onChange={(e) => setGapNum(e.target.value)}
