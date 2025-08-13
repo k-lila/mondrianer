@@ -22,7 +22,7 @@ const initialState: MondrianerState = {
   layers: 3,
   gap: '0px',
   animateColor: true,
-  animateGrid: false,
+  animateGrid: true,
   animateDepth: true,
   transparency: 1,
   minDelay: 10000,
