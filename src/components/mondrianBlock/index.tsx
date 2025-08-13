@@ -1,59 +1,91 @@
 import random from 'random'
 import { useEffect, useState } from 'react'
 import { Block } from './styles'
-import { randNum } from '../../utils'
+import { useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
 
-const randColor = () => {
-  const palette = [
-    '#314290',
-    '#4A71C0',
-    '#F1F2ED',
-    '#F0D32D',
-    '#AB3A2C',
-    'transparent'
-  ]
-  return palette[random.int(0, palette.length - 1)]
+const randColor = (transparency: number) => {
+  const palette = ['#314290', '#4A71C0', '#F1F2ED', '#F0D32D', '#AB3A2C']
+  if (random.int(0, 10) > transparency) {
+    return palette[random.int(0, palette.length - 1)]
+  } else {
+    return 'transparent'
+  }
 }
 
-type MondrianBlockProps = {
-  $animate: boolean
-}
-
-export const MondrianBlock = ({ $animate }: MondrianBlockProps) => {
+export const MondrianBlock = () => {
   const [background, setbackground] = useState('black')
   const [opacity, setOpacity] = useState(`0`)
-  const [duration, setduration] = useState(randNum(500, 3000))
+  const [height, setHeight] = useState(0)
+  const [durationA, setdurationA] = useState(random.int(500, 3000))
+  const [durationB, setdurationB] = useState(random.int(500, 3000))
+  const config = useSelector((state: RootReducer) => state.config)
 
   useEffect(() => {
-    if (!$animate) {
+    if (!config.animateColor) {
       setTimeout(() => {
-        setbackground(randColor())
-        setOpacity(`0.${randNum(25, 99)}`)
+        setbackground(randColor(config.transparency))
+        setOpacity(`0.${random.int(25, 99)}`)
         return
-      }, duration)
+      }, durationA)
     } else {
       const timer = setInterval(() => {
-        setbackground(randColor())
-        setOpacity(`0.${randNum(25, 99)}`)
-      }, duration)
+        setbackground(randColor(config.transparency))
+        setOpacity(`0.${random.int(25, 99)}`)
+      }, durationA)
       return () => {
         clearInterval(timer)
       }
     }
-  }, [$animate, duration])
+  }, [config.animateColor, durationA, config.transparency])
 
   useEffect(() => {
-    if (!$animate) {
+    if (!config.animateColor) {
       return
     } else {
       const timer = setInterval(() => {
-        setduration(randNum(10000, 30000))
-      }, duration)
+        setdurationA(random.int(config.minDelay, config.maxDelay))
+      }, durationA)
       return () => {
         clearInterval(timer)
       }
     }
-  }, [$animate, duration])
+  }, [config.animateColor, durationA, config.minDelay, config.maxDelay])
 
-  return <Block $bgcolor={background} $opacity={opacity} />
+  useEffect(() => {
+    if (!config.animateDepth) {
+      setTimeout(() => {
+        setHeight(random.int(0, config.height))
+        return
+      }, durationB)
+    } else {
+      const timer = setInterval(() => {
+        setHeight(random.int(0, config.height))
+      }, durationB)
+      return () => {
+        clearInterval(timer)
+      }
+    }
+  }, [config.animateDepth, config.height, durationB])
+
+  useEffect(() => {
+    if (!config.animateDepth) {
+      return
+    } else {
+      const timer = setInterval(() => {
+        setdurationB(random.int(config.minDelay, config.maxDelay))
+      }, durationB)
+      return () => {
+        clearInterval(timer)
+      }
+    }
+  }, [config.animateDepth, durationB, config.minDelay, config.maxDelay])
+
+  return (
+    <Block
+      $bgcolor={background}
+      $opacity={opacity}
+      $height={`translateZ(${height}px)`}
+    />
+  )
 }

@@ -1,21 +1,15 @@
-import { ReactElement, useState } from 'react'
-import { MondrianBlock } from '../components/mondrianBlock'
-import { MondrianGrid } from '../components/mondrianGrid'
-import { randBool } from '../utils'
+import random from 'random'
+import { ReactElement } from 'react'
 import { useSelector } from 'react-redux'
-import { RootReducer } from '../store'
 import { MondrianerContainer } from './styles'
+import { RootReducer } from '../../store'
+import { MondrianBlock } from '../../components/mondrianBlock'
+import { MondrianGrid } from '../../components/mondrianGrid'
 
 export const Mondrianer = () => {
   const recursion = useSelector((state: RootReducer) => state.config.recursion)
   const gap = useSelector((state: RootReducer) => state.config.gap)
   const triggerNum = useSelector((state: RootReducer) => state.config.trigger)
-  const animateGrid = useSelector(
-    (state: RootReducer) => state.config.animateGrid
-  )
-  const animateColor = useSelector(
-    (state: RootReducer) => state.config.animateColor
-  )
   const refresh = useSelector((state: RootReducer) => state.config.refresher)
 
   const recursive = (
@@ -25,24 +19,24 @@ export const Mondrianer = () => {
   ): ReactElement => {
     const trigger = counter >= triggerNum
     if (num === 0) {
-      return <MondrianBlock $animate={animateColor} />
+      return <MondrianBlock />
     }
     return (
-      <MondrianGrid $horizontal={horizontal} $gap={gap} $animate={animateGrid}>
-        {trigger && randBool() ? (
-          randBool() ? (
+      <MondrianGrid $horizontal={horizontal} $gap={gap}>
+        {trigger && random.bool() ? (
+          random.bool() ? (
             recursive(num - 1, !horizontal, counter + 1)
           ) : (
-            <MondrianBlock $animate={animateColor} />
+            <MondrianBlock />
           )
         ) : (
           recursive(num - 1, !horizontal, counter + 1)
         )}
-        {trigger && randBool() ? (
-          randBool() ? (
+        {trigger && random.bool() ? (
+          random.bool() ? (
             recursive(num - 1, !horizontal, counter + 1)
           ) : (
-            <MondrianBlock $animate={animateColor} />
+            <MondrianBlock />
           )
         ) : (
           recursive(num - 1, !horizontal, counter + 1)
@@ -52,7 +46,7 @@ export const Mondrianer = () => {
   }
   return (
     <MondrianerContainer key={refresh}>
-      {recursive(recursion, randBool(), 0)}
+      {recursive(recursion, random.bool(), 0)}
     </MondrianerContainer>
   )
 }

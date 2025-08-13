@@ -12,4 +12,5 @@ export const Grid = styled.div.attrs<MondrianGridProps>((props) => ({
   width: 100%;
   display: grid;
   transition: all 0.5s ease-in;
+  transform-style: preserve-3d;
 `

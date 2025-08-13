@@ -9,6 +9,10 @@ export const MenuStyled = styled.div`
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.8);
   padding: 2vmin;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0.25em;
   form {
     display: flex;
     flex-direction: column;
@@ -57,14 +61,9 @@ export const Header = styled.div`
 `
 
 export const InputRange = styled.div<{ $num: number }>`
-  padding: 2vmin;
-  background-color: ${(props) =>
-    props.$num <= 10
-      ? 'rgba(255, 255, 255, 0.7)'
-      : props.$num > 10 && props.$num <= 15
-      ? 'rgba(234, 239, 44, 0.7)'
-      : 'rgba(255, 0, 0, 0.55)'};
-  margin-bottom: 1em;
+  padding: 0.5em 1em;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-top: 1em;
   div {
     display: flex;
     justify-content: space-between;
@@ -84,8 +83,8 @@ export const InputRange = styled.div<{ $num: number }>`
 export const InputGap = styled.div<{ $char: string }>`
   display: flex;
   flex-direction: column;
-  padding: 2vmin;
-  margin-bottom: 1em;
+  padding: 0.5em 1em;
+  margin: 2em 0;
   background-color: rgba(255, 255, 255, 0.7);
   .__gap {
     display: flex;
@@ -143,8 +142,11 @@ export const InputCheck = styled.div`
   background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   justify-content: space-between;
-  padding: 2vmin;
+  padding: 0.5em 1em;
   margin-bottom: 1em;
+  input {
+    margin-left: 2em;
+  }
 `
 
 export const OpenMenu = styled.button<{ $visible: boolean }>`
@@ -157,8 +159,8 @@ export const OpenMenu = styled.button<{ $visible: boolean }>`
   cursor: pointer;
   background-color: transparent;
   border: none;
-  width: 10vmin;
-  height: 10vmin;
+  width: 7vmin;
+  height: 7vmin;
   img {
     width: 100%;
     height: 100%;

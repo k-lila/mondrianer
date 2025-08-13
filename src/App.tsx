@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux'
-import { Mondrianer } from './mondrianer'
 import { Frame, GlobalStyle } from './styles'
 import store from './store'
 import { Menu } from './components/menu'
+import { Layers } from './containers/layers'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <GlobalStyle />
         <Frame />
         <Menu />
-        <Mondrianer />
+        <Layers />
       </div>
     </Provider>
   )

@@ -15,6 +15,11 @@ export const GlobalStyle = createGlobalStyle`
     height: 100svh;
     overflow: hidden;
     position: relative;
+    &__mondrianer {
+      height: 100%;
+      perspective: 5000px;
+      transform-style: preserve-3d;
+    }
   }
 `
 export const Frame = styled.div`

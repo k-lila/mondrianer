@@ -12,9 +12,12 @@ import { RootReducer } from '../../store'
 import {
   refresher,
   setAnimateColor,
+  setAnimateDepth,
   setAnimateGrid,
   setGap,
+  setLayers,
   setRecursion,
+  setTransparency,
   setTrigger
 } from '../../store/reducers/mondrianerConfig'
 import settings from '../../assets/settings.png'
@@ -22,27 +25,20 @@ import close from '../../assets/close.png'
 
 export const Menu = () => {
   const [open, setOpen] = useState(false)
-  const recursionStore = useSelector(
-    (state: RootReducer) => state.config.recursion
-  )
-  const gapStore = useSelector((state: RootReducer) => state.config.gap)
-  const gridStore = useSelector(
-    (state: RootReducer) => state.config.animateGrid
-  )
-  const colorsStore = useSelector(
-    (state: RootReducer) => state.config.animateColor
-  )
-  const triggerStore = useSelector((state: RootReducer) => state.config.trigger)
+  const config = useSelector((state: RootReducer) => state.config)
   const refreshStore = useSelector(
     (state: RootReducer) => state.config.refresher
   )
 
-  const [recursionForm, setRecursionForm] = useState(recursionStore)
-  const [gapNum, setGapNum] = useState(gapStore.replace(/\D+/g, ''))
-  const [gapChar, setGapChar] = useState(gapStore.replace(/\d+/g, ''))
-  const [gridChecked, setGridChecked] = useState(gridStore)
-  const [colorChecked, setColorChecked] = useState(colorsStore)
-  const [triggerForm, setTriggerForm] = useState(triggerStore)
+  const [recursionForm, setRecursionForm] = useState(config.recursion)
+  const [triggerForm, setTriggerForm] = useState(config.trigger)
+  const [gapNum, setGapNum] = useState(config.gap.replace(/\D+/g, ''))
+  const [gapChar, setGapChar] = useState(config.gap.replace(/\d+/g, ''))
+  const [gridChecked, setGridChecked] = useState(config.animateGrid)
+  const [colorChecked, setColorChecked] = useState(config.animateColor)
+  const [depthChecked, setDephChecked] = useState(config.animateDepth)
+  const [transparencyForm, setTransparencyForm] = useState(config.transparency)
+  const [layersForm, setLayersForm] = useState(config.layers)
   const [visible, setVisible] = useState(true)
   const dispatch = useDispatch()
   const handleSubmit = (event: React.FormEvent) => {
@@ -52,6 +48,9 @@ export const Menu = () => {
     dispatch(setAnimateGrid(gridChecked))
     dispatch(setAnimateColor(colorChecked))
     dispatch(setTrigger(triggerForm))
+    dispatch(setTransparency(transparencyForm))
+    dispatch(setLayers(layersForm))
+    dispatch(setAnimateDepth(depthChecked))
   }
 
   return open ? (
@@ -73,20 +72,15 @@ export const Menu = () => {
       <form onSubmit={handleSubmit}>
         <InputRange $num={recursionForm}>
           <div>
-            <label htmlFor="recursion">granularidade</label>
-            <input
-              type="number"
-              id="recursion"
-              value={recursionForm}
-              onChange={(e) => setRecursionForm(Number(e.target.value))}
-            />
+            <p>recursões</p>
+            <p>{recursionForm}</p>
           </div>
           <input
             className="__range"
             id="numrange"
             type="range"
             min="0"
-            max="25"
+            max="10"
             step="1"
             value={recursionForm}
             onChange={(e) => setRecursionForm(Number(e.target.value))}
@@ -94,13 +88,8 @@ export const Menu = () => {
         </InputRange>
         <InputRange $num={triggerForm}>
           <div>
-            <label htmlFor="trigger">saturação</label>
-            <input
-              type="number"
-              id="trigger"
-              value={triggerForm}
-              onChange={(e) => setTriggerForm(Number(e.target.value))}
-            />
+            <p>saturação</p>
+            <p>{triggerForm}</p>
           </div>
           <input
             type="range"
@@ -111,6 +100,38 @@ export const Menu = () => {
             step="1"
             value={triggerForm}
             onChange={(e) => setTriggerForm(Number(e.target.value))}
+          />
+        </InputRange>
+        <InputRange $num={transparencyForm}>
+          <div>
+            <p>transparência</p>
+            <p>{transparencyForm}</p>
+          </div>
+          <input
+            type="range"
+            className="__range"
+            id="transparency"
+            min="0"
+            max="10"
+            step="1"
+            value={transparencyForm}
+            onChange={(e) => setTransparencyForm(Number(e.target.value))}
+          />
+        </InputRange>
+        <InputRange $num={layersForm}>
+          <div>
+            <p>camadas</p>
+            <p>{layersForm}</p>
+          </div>
+          <input
+            type="range"
+            className="__range"
+            id="layers"
+            min="1"
+            max="10"
+            step="1"
+            value={layersForm}
+            onChange={(e) => setLayersForm(Number(e.target.value))}
           />
         </InputRange>
         <InputGap $char={gapChar}>
@@ -158,6 +179,15 @@ export const Menu = () => {
             id="colors"
             checked={colorChecked}
             onChange={() => setColorChecked(!colorChecked)}
+          />
+        </InputCheck>
+        <InputCheck>
+          <label htmlFor="depth">animar profundidade</label>
+          <input
+            type="checkbox"
+            id="depth"
+            checked={depthChecked}
+            onChange={() => setDephChecked(!depthChecked)}
           />
         </InputCheck>
         <div className="__container-btn">
