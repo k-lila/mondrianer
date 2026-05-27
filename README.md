@@ -1,46 +1,106 @@
-# Getting Started with Create React App
+# mondrianer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Gerador de arte generativa interativo inspirado em Piet Mondrian, com recursão fractal, animações 3D dinâmicas e controle paramétrico em tempo real.
 
-## Available Scripts
+**Demo:** https://mondrianer.vercel.app
 
-In the project directory, you can run:
+**Stack:** React 18 · TypeScript 4.9 · Styled Components 6 · Redux Toolkit 2 · CRA 5
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Arquitetura
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+App.tsx (Redux Provider + GlobalStyle)
+     │
+     ├── Menu                       ← controles interativos (sliders, toggles)
+     │
+     └── Layers
+          ├── Mondrianer #1
+          │    └── recursive()      ← divisão fractal alternando H/V
+          │         └── MondrianGrid
+          │              ├── MondrianBlock  (cor, opacidade, translateZ)
+          │              └── MondrianGrid   (aninhado recursivamente)
+          └── Mondrianer #N ...
 
-### `npm test`
+Redux Store (mondrianerConfig)
+  ├── recursion · trigger · transparency
+  ├── layers · gap
+  ├── animateColor · animateGrid · animateDepth
+  ├── minDelay · maxDelay · perspective · height
+  └── refresher (força re-render)
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Funcionalidades
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Parâmetro | Descrição |
+| --- | --- |
+| **Recursão** (0–10) | Profundidade do padrão fractal |
+| **Camadas** (1–10) | Instâncias sobrepostas em perspectiva 3D |
+| **Gap** | Espaçamento entre blocos (px ou %) |
+| **Saturação** | Ponto de ramificação aleatória |
+| **Transparência** | Frequência de blocos transparentes |
+| **Animar grid** | Muda proporções das colunas/linhas dinamicamente |
+| **Animar cores** | Alterna paleta Mondrian em tempo real |
+| **Animar profundidade** | Move blocos no eixo Z (efeito 3D) |
+| **Delay min/max** | Intervalo de animação entre 10s e 120s |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Paleta:** `#314290` · `#4A71C0` · `#F1F2ED` · `#F0D32D` · `#AB3A2C`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Pré-requisitos
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+| Ferramenta | Versão mínima |
+| --- | --- |
+| Node.js | 16+ |
+| npm | 8+ |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Instalação e execução
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+# Clonar o repositório
+git clone <repo-url>
+cd mondrianer
 
-## Learn More
+# Instalar dependências
+npm install
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Servidor de desenvolvimento
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+A aplicação abre automaticamente em `http://localhost:3000` com hot reload.
+
+### Build de produção
+
+```bash
+npm run build
+```
+
+Output otimizado gerado em `./build/`, pronto para deploy.
+
+---
+
+## Scripts
+
+| Script | Descrição |
+| --- | --- |
+| `npm start` | Servidor de desenvolvimento (porta 3000) |
+| `npm run build` | Build otimizado para produção |
+| `npm test` | Suíte de testes Jest (watch mode) |
+| `npm run lint` | Verificação ESLint |
+| `npm run format` | Auto-formatação Prettier |
+
+---
+
+## URLs de acesso
+
+| Ambiente | URL |
+| --- | --- |
+| Desenvolvimento | http://localhost:3000 |
+| Demo ao vivo | https://mondrianer.vercel.app |
